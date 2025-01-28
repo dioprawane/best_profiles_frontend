@@ -1,0 +1,14 @@
+.box {
+    display: flex;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    justify-content: center;
+}
+
+canvas {
+    border: 1px solid black;
+    width: 500px;
+    /* Limite la largeur du canvas */
+    height: 500px;
+    /* Limite la hauteur du canvas */
+}

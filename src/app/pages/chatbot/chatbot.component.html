@@ -1,0 +1,53 @@
+
+
+
+<!-- chatbot msg
+ChatbotMessageComponent 
+-->
+<ng-container *ngFor="let msg of messages">
+    <app-chatbot-message [message]="msg.message" [isUserMessage]="msg.isUserMessage" [isOnWriting]="msg.isOnWriting"></app-chatbot-message>
+</ng-container>
+
+<div class="space"></div>
+
+
+<div class="absolut-box">
+
+    <div class="main-grid">
+        <div class="grid-one">
+            <div class="box-historique">
+                <button mat-fab extended class="button-add">
+                    <mat-icon>add</mat-icon>
+                    Ajouter
+                  </button>
+
+                  <button  *ngFor="let elt of historique_title" mat-button  (click)="changeSession(elt)" class="button-historique">{{elt}}</button>
+            </div> 
+        </div>
+
+        <div class="grid-two">
+            <div class="message-form-shape">
+                <div class="message-form">
+                    <div class="message-input-shape">
+                        <form #formRef="ngForm" (ngSubmit)="onSubmit(formRef)" class="form" >
+                            <input type="text" name="content" [(ngModel)]="formContent" class="message-input" placeholder="Type your message here..." autocomplete="off">
+                            <button class="message-send-button">Send</button>
+                        </form>
+                        <div class="insert-button-shape">
+                            <button (click)="triggerFileInput()" mat-icon-button aria-label="Example icon button with a vertical three dot icon" >
+                                <mat-icon>attach_file</mat-icon>
+                            </button>
+                            <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" />
+                            <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-three">
+        </div>
+    </div>
+</div>

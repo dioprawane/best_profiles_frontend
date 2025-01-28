@@ -1,0 +1,102 @@
+.drawer-container {
+    overflow: hidden;
+    background-color: transparent !important;
+    /* Utilise toute la hauteur */
+}
+
+.drawer {
+    position: fixed;
+    overflow: hidden;
+    border-radius: 0 0 0 0 !important;
+    height: 100vh;
+    width: 300px;
+    /* Définit la largeur de la sidebar */
+}
+
+.sidenav {
+    overflow: hidden;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+
+
+}
+
+
+.logo {
+    height: 40px;
+    width: 40px;
+    margin: 10px;
+}
+
+.toolbar {
+    position: fixed;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    background-color: var(--color-1);
+    overflow-x: hidden;
+    color: white;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.icon-tool-bar {
+    color: white;
+}
+
+.title {
+    color: white;
+    font-size: medium;
+}
+
+.button-toolbar {
+    color: white !important;
+    font-size: small;
+}
+
+
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.button-span {
+    display: flex;
+    align-items: center;
+}
+
+.toolbar-item-selected {
+    text-decoration: underline;
+}
+
+#main-content {
+    overflow: hidden !important;
+    z-index: 1;
+}
+
+.mat-drawer-content {
+    overflow: hidden;
+
+}
+
+router-outlet {
+    overflow: hidden !important;
+}
+
+.page {
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    padding-top: 64px;
+    height: 100vh;
+    width: 100vw;
+
+
+}
+
+#mega {
+    overflow: hidden;
+    overflow-y: hidden !important;
+    height: 100vh;
+    height: auto !important;
+
+
+}

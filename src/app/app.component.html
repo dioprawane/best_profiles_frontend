@@ -1,0 +1,67 @@
+<div id="mega"><mat-drawer-container class="drawer-container">
+    <!-- Barre d'outils principale -->
+    <mat-toolbar class="toolbar">
+      
+      <span class="title">
+        <img src="assets/svg/logo_BestProfiles.svg" alt="logo" class="logo">
+        <i>DIOP Rawane, DAO Linh, BORREANI Théo</i>
+      </span>
+      <span class="spacer"></span>
+      
+      <!-- Boutons principaux -->
+      <span *ngIf="!showButtonToolbar" class="button-span">
+        <span *ngFor="let menu of menus">
+          <button 
+            mat-button 
+            class="button-toolbar" 
+            (click)="NavigateTo(menu)"
+            id="{{menu.id}}">
+            {{menu.name}}
+          </button>
+        </span>
+        <button mat-fab extended disabled class="button-toolbar">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+      </span>
+  
+      <!-- Bouton pour afficher le menu (sidebar) -->
+      <button 
+        *ngIf="showButtonToolbar" 
+        mat-icon-button 
+        class="example-icon" 
+        aria-label="Example icon-button with menu icon" 
+        (click)="toggleSidebar()">
+        <mat-icon class="icon-tool-bar">menu</mat-icon>
+      </button>
+    </mat-toolbar>
+  
+    <!-- Contenu principal -->
+    <div id="main-content">
+        <div class="page">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+  
+    <!-- Sidebar -->
+    <mat-drawer 
+      #drawer 
+      id="sidenav" 
+      mode="side" 
+      position="end" 
+      [(opened)]="isSidebarOpen"
+      class="drawer">
+      <div id="content-sidenav">
+        <!-- Contenu de la sidebar -->
+        <p>Contenu de la sidebar</p>
+        <button 
+          mat-fab 
+          extended 
+          class="button-toolbar" 
+          (click)="toggleSidebar()"
+        >
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </div>
+    </mat-drawer>
+  </mat-drawer-container>
+  </div>

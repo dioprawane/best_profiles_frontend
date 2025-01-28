@@ -1,0 +1,101 @@
+:root {
+    --height-our-service: 300px;
+    --background-color: #BACEFF;
+}
+
+#our-service {
+
+    overflow-x: visible;
+    overflow-y: visible;
+}
+
+#our-service-box {
+    display: flex;
+    flex-direction: row;
+}
+
+#our-service-img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.our-service-div {
+    height: var(--height-our-service);
+    overflow-x: visible;
+    overflow-y: visible;
+
+}
+
+
+#our-service-div-picture {
+    flex: 3;
+    overflow-x: visible;
+    overflow-y: visible;
+
+    background-color: red;
+
+}
+
+#our-service-div-box {
+    flex: 4;
+    background-color: #BACEFF;
+}
+
+#our-service-card {
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    transform: translateY(10px) translateX(-10px);
+}
+
+#our-service-space {
+    height: 100px;
+}
+
+#our-prices {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #BACEFF;
+    padding-top: 30px;
+    padding-bottom: 30px;
+
+}
+
+#our-prices-card {
+    background-color: white;
+    height: 350px;
+    width: 200px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+}
+
+#our-prices-div-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    gap: 40px;
+}
+
+#div-wave {
+
+    width: 100%;
+    height: 30px;
+    background-image: url('./../../../../public/assets/svg/wave.svg');
+    background-size: contain;
+    background-repeat: repeat;
+    transform: rotate(180deg);
+
+}
+
+#img-wave {
+    width: 100%;
+    height: 100%;
+
+
+}

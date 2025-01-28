@@ -1,0 +1,127 @@
+/* Global container */
+.message {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    /* Align messages vertically at the top */
+    padding: 10px;
+    justify-content: center;
+}
+
+/* Wrapper for each message */
+.message-shape {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    max-width: 800px;
+    width: 100%;
+    gap: 10px;
+    /* Add space between avatar and content */
+}
+
+/* Align message content dynamically */
+.message-shape-right {
+    justify-content: flex-end;
+}
+
+.message-shape-left {
+    justify-content: flex-start;
+}
+
+/* Message content styles */
+.message-content {
+    max-width: 800px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    word-wrap: break-word;
+    /* Handle long text */
+}
+
+/* Avatar */
+.message-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.message-avatar-robot {
+    background-image: url('./../../../../public/assets/png/equipement.png');
+}
+
+.message-avatar-boy {
+    background-image: url('./../../../../public/assets/png/travail-en-equipe.png');
+}
+
+.speech-bubble-right {
+    position: relative;
+    border-radius: .4em;
+}
+
+.speech-bubble-right:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-right-color: #ffffff;
+    border-left: 0;
+    margin-top: -8px;
+    margin-left: -8px;
+}
+
+.speech-bubble-left {
+    position: relative;
+    border-radius: .4em;
+}
+
+.speech-bubble-left:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-left-color: #ffffff;
+    border-right: 0;
+    margin-top: -8px;
+    margin-right: -8px;
+}
+
+
+/* Loader */
+.loader {
+    display: flex;
+    gap: 5px;
+}
+
+.loader__element {
+    width: 8px;
+    height: 8px;
+    background-color: var(--point-color, #555);
+    border-radius: 50%;
+    animation: loader-animation 0.6s ease-in-out infinite alternate;
+}
+
+.loader__element:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loader__element:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes loader-animation {
+    100% {
+        transform: scale(1.5);
+    }
+}

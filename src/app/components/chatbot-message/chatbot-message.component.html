@@ -1,0 +1,26 @@
+<section class="message">
+    <div class="message-shape" [ngClass]="{'message-shape-right': isUserMessage, 'message-shape-left': !isUserMessage}">
+      <!-- Avatar -->
+      <div class="message-avatar message-avatar-robot" *ngIf="!isUserMessage"></div>
+  
+      <!-- Message Content -->
+      <div *ngIf="!isOnWriting">
+        <div class="message-content" [ngClass]="{'speech-bubble-right': !isUserMessage, 'speech-bubble-left': isUserMessage}">
+          <p>{{ message }}</p>
+        </div>
+      </div>
+  
+      <!-- Loader -->
+      <div *ngIf="isOnWriting">
+        <div class="loader">
+          <span class="loader__element"></span>
+          <span class="loader__element"></span>
+          <span class="loader__element"></span>
+        </div>
+      </div>
+  
+      <!-- Avatar for user -->
+      <div class="message-avatar message-avatar-boy" *ngIf="isUserMessage"></div>
+    </div>
+  </section>
+  
