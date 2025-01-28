@@ -92,7 +92,11 @@ export class ChatbotComponent {
 
   public changeSession(session: String): void {
     this.httpService.changeSession(session);
+    this.httpService.getSessions().then(sessions => {
+      this.historique_title = sessions;
+    });
     this.messages = this.httpService.getMessages();
+
   }
 
   public ajouterNewChat(): void {

@@ -114,16 +114,18 @@
 
 .box-historique {
     display: flex;
+
     height: 100%;
     width: 100%;
     padding: 10px;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: scroll;
     scrollbar-width: none;
     background-color: #ffffff;
     border-right: 1px solid #ccc;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     flex-direction: column;
+
 
 }
 
@@ -146,5 +148,11 @@
 }
 
 .button-historique {
+    flex-shrink: 0;
     overflow: hidden;
+    height: 30px !important;
+    width: 100%;
+    color: #000000;
+    font-size: 15px;
+    border-radius: 10px;
 }
