@@ -47,6 +47,7 @@ export class HttpService {
   }
 
   addFile(contentFile: string) {
+    console.log(contentFile)
     const myData =
     {
       "files": [
@@ -60,6 +61,8 @@ export class HttpService {
     }).subscribe(event => {
     });
   }
+
+  
   getSessions(): Promise<string[]> {
     return new Promise((resolve, reject) => {
       this.http.get<string[]>('http://127.0.0.1:8000/chat/chat/sessions', {
