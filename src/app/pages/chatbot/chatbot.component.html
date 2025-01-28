@@ -16,12 +16,12 @@ ChatbotMessageComponent
     <div class="main-grid">
         <div class="grid-one">
             <div class="box-historique">
-                <button mat-fab extended class="button-add">
+                <button mat-fab extended class="button-add"  (click)="ajouterNewChat()">
                     <mat-icon>add</mat-icon>
                     Ajouter
-                  </button>
+                </button>
 
-                  <button  *ngFor="let elt of historique_title" mat-button  (click)="changeSession(elt)" class="button-historique">{{elt}}</button>
+                <button  *ngFor="let elt of historique_title" mat-button  (click)="changeSession(elt)" class="button-historique">{{elt}}</button>
             </div> 
         </div>
 

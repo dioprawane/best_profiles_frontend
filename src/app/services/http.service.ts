@@ -68,7 +68,8 @@ export class HttpService {
       }).subscribe({
         next: (event) => {
           if (event.type === HttpEventType.Response) {
-            resolve(event.body as string[]);
+            let result = event.body as string[]
+            resolve(result.reverse());
           }
         },
         error: (err) => {
@@ -109,6 +110,27 @@ export class HttpService {
         console.log('Requête terminée');
       }
     });
+  }
+
+  addNewChat(): void {
+    this.http.post('http://127.0.0.1:8000/chat/chat/new-session', null, {
+      reportProgress: true,
+      observe: 'events',
+    }).subscribe({
+      next: (event) => {
+        console.log('Nouvelle session créée');
+        this.getSessions().then(sessions => {
+          this.currentSession = sessions[0];
+        }).catch(err => {
+          console.error('Erreur lors de la récupération des sessions :', err);
+        });
+      },
+      error: (err) => {
+        console.error('Erreur lors de la création d\'une nouvelle session :', err);
+      }
+    });
+    this.currentSession = timestamp.toString()
+    this.listMessage = []
   }
 
 }
