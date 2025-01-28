@@ -1,0 +1,6 @@
+{
+    "root": "dist/portfolio-angular/",
+    "routes": {
+      "/**": "index.html"
+    }
+  }  
