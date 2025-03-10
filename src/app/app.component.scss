@@ -1,3 +1,52 @@
+.job-card {
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    width: 100%; // Adjust width as needed
+    height: auto; // Adjust height as needed
+  }
+  
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .job-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .edit-form,
+  .add-job-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .popup {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
 .drawer-container {
     overflow: hidden;
     background-color: transparent !important;
