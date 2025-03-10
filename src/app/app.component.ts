@@ -26,6 +26,7 @@ export class AppComponent {
   menus: any[] = [
     { name: 'Général', id: 'button-go-to-main', url: '/' },
     { name: 'Chatbot', id: 'button-chatbot', url: '/chatbot' },
+    {name : 'Emplois', id: 'button-jobs', url: '/jobs'}
   ];
 
   constructor(private router: Router) { }

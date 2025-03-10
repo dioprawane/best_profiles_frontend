@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Message } from '../models/Message';
 import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { timestamp } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ export class HttpService {
 
   listMessage: Message[] = []
   currentSession: String = timestamp.toString()
+  private apiBaseUrl = 'http://localhost:8003/api/collection';
 
   constructor(private http: HttpClient) {
   }
@@ -44,6 +46,46 @@ export class HttpService {
           break;
       }
     });
+  }
+
+  createCollection(title: string, description: string): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/create`, { title, description });
+  }
+
+  // WORKED FOR CREATE COLLECTION, DELETE COLLECTION  
+  updateCollection(
+    currentTitle: string, 
+    newTitle: string, 
+    newDescription: string
+  ): Observable<any> {
+    // Use PUT method and include all required fields
+    return this.http.put(
+      `${this.apiBaseUrl}/${currentTitle}/update`,
+      { 
+        title: newTitle, 
+        description: newDescription,
+        cv_files: [] // Add this to match the Pydantic model
+      }
+    );
+  }
+
+  // updateCollection(
+  //   currentTitle: string, 
+  //   newTitle: string, 
+  //   newDescription: string
+  // ): Observable<any> {
+  //   return this.http.put(
+  //     `${this.apiBaseUrl}/${encodeURIComponent(currentTitle)}/update`, // Encode title to handle spaces
+  //     {
+  //       title: newTitle,
+  //       description: newDescription,
+  //       cv_files: []
+  //     }
+  //   );
+  // }
+
+  deleteCollection(title: string): Observable<any> {
+    return this.http.delete(`${this.apiBaseUrl}/${title}/delete`);
   }
 
   addFile(contentFile: string) {
