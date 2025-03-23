@@ -27,7 +27,7 @@ export class HttpService {
     const myData = { 'message': message, 'session_id': this.currentSession };
     let lastMessage: Message;
 
-    this.http.post('http://127.0.0.1:8000/chat/chat/rag', myData, {
+    this.http.post('http://127.0.0.1:8006/chat/chat/rag', myData, {
       reportProgress: true,
       observe: 'events',
     }).subscribe(event => {
@@ -54,15 +54,15 @@ export class HttpService {
 
   // WORKED FOR CREATE COLLECTION, DELETE COLLECTION  
   updateCollection(
-    currentTitle: string, 
-    newTitle: string, 
+    currentTitle: string,
+    newTitle: string,
     newDescription: string
   ): Observable<any> {
     // Use PUT method and include all required fields
     return this.http.put(
       `${this.apiBaseUrl}/${currentTitle}/update`,
-      { 
-        title: newTitle, 
+      {
+        title: newTitle,
         description: newDescription,
         cv_files: [] // Add this to match the Pydantic model
       }
@@ -97,17 +97,17 @@ export class HttpService {
       ],
       "clear_existing": false
     };
-    this.http.post('http://127.0.0.1:8000/chat/documents/index', myData, {
+    this.http.post('http://127.0.0.1:8006/chat/documents/index', myData, {
       reportProgress: true,
       observe: 'events',
     }).subscribe(event => {
     });
   }
 
-  
+
   getSessions(): Promise<string[]> {
     return new Promise((resolve, reject) => {
-      this.http.get<string[]>('http://127.0.0.1:8000/chat/chat/sessions', {
+      this.http.get<string[]>('http://127.0.0.1:8006/chat/chat/sessions', {
         reportProgress: true,
         observe: 'events',
       }).subscribe({
@@ -131,7 +131,7 @@ export class HttpService {
   changeSession(session: String): void {
     this.currentSession = session
 
-    this.http.get<any[]>(`http://127.0.0.1:8000/chat/history/${session}`, {
+    this.http.get<any[]>(`http://127.0.0.1:8006/chat/history/${session}`, {
       reportProgress: true,
       observe: 'events',
     }).subscribe({
@@ -158,7 +158,7 @@ export class HttpService {
   }
 
   addNewChat(): void {
-    this.http.post('http://127.0.0.1:8000/chat/chat/new-session', null, {
+    this.http.post('http://127.0.0.1:8006/chat/chat/new-session', null, {
       reportProgress: true,
       observe: 'events',
     }).subscribe({
