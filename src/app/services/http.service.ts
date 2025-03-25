@@ -16,8 +16,48 @@ export class HttpService {
   constructor(private http: HttpClient) {
   }
 
+  uploadCVs(
+    title: string,
+    description: string,
+    files: File[]
+  ): Observable<any> {
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    files.forEach(file => formData.append('cv_files', file));
+    return this.http.post(`${this.apiBaseUrl}/create`, formData);
+  }
+
+  getCollectionDetails(id: string): Observable<any> {
+    return this.http.get(`${this.apiBaseUrl}/${id}`);
+  }
+
+  // Generate a dynamic URL for serving PDFs
+  getPdfUrl(collectionId: string, filename: string): string {
+    return `${this.apiBaseUrl}/${collectionId}/cv/${filename}`;
+  }
+
+  deleteCvFromCollection(collectionId: string, filename: string): Observable<any> {
+    return this.http.delete(`${this.apiBaseUrl}/${collectionId}/cv/${filename}`);
+  }
+
+  // Fetch CV file as Base64
+  getCvAsBase64(collectionId: string, filename: string): Observable<any> {
+    return this.http.get(`${this.apiBaseUrl}/collection/${collectionId}/cv/${filename}`);
+  }
+
   addMessageCustomer(message: string): void {
     this.listMessage.push(new Message(message, true, false))
+  }
+  addCVsToCollection(collectionId: string, files: File[]): Observable<any> {
+    const formData = new FormData();
+    files.forEach(file => formData.append('cv_files', file));
+
+    return this.http.post(`${this.apiBaseUrl}/${collectionId}/add-cv`, formData);
+  }
+
+  createCollectionWithFiles(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/create`, formData);
   }
 
   addMessageIA(message: string): void {
@@ -48,41 +88,20 @@ export class HttpService {
     });
   }
 
-  createCollection(title: string, description: string): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/create`, { title, description });
-  }
-
   // WORKED FOR CREATE COLLECTION, DELETE COLLECTION  
   updateCollection(
-    currentTitle: string, 
-    newTitle: string, 
+    currentTitle: string,
+    newTitle: string,
     newDescription: string
   ): Observable<any> {
-    // Use PUT method and include all required fields
-    return this.http.put(
-      `${this.apiBaseUrl}/${currentTitle}/update`,
-      { 
-        title: newTitle, 
-        description: newDescription,
-        cv_files: [] // Add this to match the Pydantic model
-      }
-    );
+    const body = {
+      title: newTitle,
+      description: newDescription,
+      cv_files: [] // Optional: Include empty array if needed
+    };
+  
+    return this.http.put(`${this.apiBaseUrl}/${currentTitle}/update`, body);
   }
-
-  // updateCollection(
-  //   currentTitle: string, 
-  //   newTitle: string, 
-  //   newDescription: string
-  // ): Observable<any> {
-  //   return this.http.put(
-  //     `${this.apiBaseUrl}/${encodeURIComponent(currentTitle)}/update`, // Encode title to handle spaces
-  //     {
-  //       title: newTitle,
-  //       description: newDescription,
-  //       cv_files: []
-  //     }
-  //   );
-  // }
 
   deleteCollection(title: string): Observable<any> {
     return this.http.delete(`${this.apiBaseUrl}/${title}/delete`);

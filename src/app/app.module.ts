@@ -46,6 +46,10 @@ import { ChatbotComponent } from './pages/chatbot/chatbot.component';
 import { HttpService } from './services/http.service';  // Import your service
 import { JobsComponent } from './components/jobs/jobs.component';
 import { JobsDetailComponent } from './components/jobs-detail/jobs-detail.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
+import { CommonModule } from '@angular/common';
+import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 
 @NgModule({
     declarations: [
@@ -59,11 +63,18 @@ import { JobsDetailComponent } from './components/jobs-detail/jobs-detail.compon
         MatSidenavModule,
         MatToolbarModule,
         MatButtonModule,
-        MatIconModule
+        MatIconModule,
+        BrowserAnimationsModule,
+        CommonModule,
+        PdfJsViewerModule
+    ],
+    schemas: [
+        NO_ERRORS_SCHEMA,
+        // CUSTOM_ELEMENTS_SCHEMA
     ],
     providers: [
         provideHttpClient(),  // Use provideHttpClient with interceptors
-        HttpService,
+        HttpService
     ],
     bootstrap: [AppComponent]
 })

@@ -1,0 +1,33 @@
+  .cv-container {
+    position: relative;
+    padding: 20px;
+    height: 100vh;
+    box-sizing: border-box; 
+  }
+  
+  .add-cv-button {
+    position: fixed;
+    top: 150px; 
+    right: 20px;
+    z-index: 1000;
+    background-color: yellow;
+    border-radius: 10px;
+  }
+  .delete-cv-button {
+    background-color: red;
+    border-radius: 10px;
+    color: white;
+  }
+  
+  .cv-list {
+    margin-top: 100px; 
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    height: calc(100% - 120px);
+    overflow-y: auto;
+  }
+  
+  .cv-item {
+    margin-bottom: 10px;
+  }

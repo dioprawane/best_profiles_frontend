@@ -1,60 +1,77 @@
 <!-- jobs.component.html -->
-
 <div class="jobs-container">
-    <h1>Gestion des Postes</h1>
-  
-    <!-- Grid container for job sections -->
-    <div class="job-grid">
-      <!-- Dynamically generated job sections -->
-      <div *ngFor="let job of jobs; let i = index" class="job-card">
-        <div class="job-title">
-          <span class = "centered-text">{{ job.title }}</span>
+  <h1>Gestion des Postes</h1>
+
+  <!-- Grid container for job sections -->
+  <div class="job-grid">
+    <!-- Dynamically generated job sections -->
+    <div *ngFor="let job of jobs; let i = index" class="job-card">
+      <div class="job-title">
+        <span class="centered-text">{{ job.title }}</span>
+      </div>
+      <div class="job-actions">
+        <!-- First row of buttons -->
+        <div class="button-row">
+          <button (click)="editJob(i)" class="edit-button">Modifier</button>
+          <button (click)="deleteJob(i)" class="delete-button">Supprimer</button>
         </div>
-        <div class="job-actions">
-            <!-- First row of buttons -->
-            <div class="button-row">
-              <button (click)="editJob(i)" class="edit-button">Modifier</button>
-              <button (click)="deleteJob(i)" class="delete-button">Supprimer</button>
-            </div>
-            
-            <!-- Second row of buttons -->
-            <div class="button-row">
-              <button (click)="showDescription(i)" class="description-button">Description</button>
-              <button (click)="viewJobDetails(job.id)" class="consult-button">Consulter</button>
-            </div>
-          </div>
-        <div *ngIf="job.showEdit" class="edit-form">
-          <input [(ngModel)]="job.title" type="text" placeholder="Nom du poste" />
-          <textarea [(ngModel)]="job.description" placeholder="Description personnalisée"></textarea>
-          <div class="button-group">
-            <button (click)="saveJob(i)">Valider</button>
-            <button (click)="cancelEdit(i)">Annuler</button>
-          </div>
+        
+        <!-- Second row of buttons -->
+        <div class="button-row">
+          <button (click)="showDescription(i)" class="description-button">Description</button>
+          <button (click)="viewJobDetails(job.id)" class="consult-button">Consulter</button>
         </div>
       </div>
-  
-      <!-- Add Job Button styled as a card -->
-      <div *ngIf="!addingJob" class="add-job-card" (click)="startAddingJob()">
-        <p class = "add-job-text">Ajouter une nouvelle section de job</p>
-      </div>
-  
-      <!-- Form for Adding a New Job -->
-      <div *ngIf="addingJob" class="add-job-form">
-        <input [(ngModel)]="newJobTitle" type="text" placeholder="Nom du poste" />
-        <textarea [(ngModel)]="newJobDescription" placeholder="Description personnalisée"></textarea>
+
+      <!-- Edit Form -->
+      <div *ngIf="job.showEdit" class="edit-form">
+        <input [(ngModel)]="job.title" type="text" placeholder="Nom du poste" required />
+        <textarea [(ngModel)]="job.description" placeholder="Description personnalisée" required></textarea>
         <div class="button-group">
-          <button (click)="createJob()" class = "create-button">Créer</button>
-          <button (click)="cancelAddingJob()" class = "cancel-button">Annuler</button>
+          <button (click)="saveJob(i)">Valider</button>
+          <button (click)="cancelEdit(i)">Annuler</button>
         </div>
       </div>
     </div>
-  
-    <!-- Popup for Displaying Description -->
-    <div *ngIf="showPopup" class="popup-overlay">
-      <div class="popup">
-        <h2>Description de {{ selectedJob?.title }}</h2>
-        <p>{{ selectedJob?.description }}</p>
-        <button (click)="closePopup()">Fermer</button>
+
+    <!-- Add Job Button styled as a card -->
+    <div *ngIf="!addingJob" class="add-job-card" (click)="startAddingJob()">
+      <p class="add-job-text">Ajouter une nouvelle section de job</p>
+    </div>
+
+    <!-- Form for Adding a New Job -->
+    <div *ngIf="addingJob" class="add-job-form">
+      <input [(ngModel)]="newJobTitle" type="text" placeholder="Nom du poste" />
+      <textarea [(ngModel)]="newJobDescription" placeholder="Description personnalisée"></textarea>
+      
+      <!-- File upload input -->
+      <input 
+        type="file" 
+        multiple 
+        (change)="handleFileUpload($event)" 
+        accept=".pdf,application/pdf" 
+        class="cv-upload-input"
+      />
+    
+      <div class="button-group">
+        <button (click)="createJob()" class="create-button">Créer</button> <!-- Bind here -->
+        <button (click)="cancelAddingJob()" class="cancel-button">Annuler</button>
       </div>
+    </div>
+
+    <!-- Success Popup -->
+    <div *ngIf="showSuccessPopup" class="success-popup">
+      <p>Il y a {{ uploadedCount }} CV ont été chargés.</p>
+      <button (click)="closeSuccessPopup()">Fermer</button>
     </div>
   </div>
+
+  <!-- Description Popup -->
+  <div *ngIf="showPopup" class="popup-overlay">
+    <div class="popup">
+      <h2>Description de {{ selectedJob?.title }}</h2>
+      <p>{{ selectedJob?.description }}</p>
+      <button (click)="closePopup()">Fermer</button>
+    </div>
+  </div>
+</div>
