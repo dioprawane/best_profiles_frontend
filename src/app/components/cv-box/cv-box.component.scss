@@ -1,0 +1,54 @@
+.cv-box {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 350px;
+    min-height: 520px;
+    height: 520px; // <--- hauteur fixe
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  
+  .cv-box h2 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .cv-box h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  
+  .cv-box:hover {
+    transform: scale(1.03);
+  }
+  
+  .label {
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+  
+  .bar-container {
+    background: #e0e0e0;
+    border-radius: 10px;
+    height: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  
+  .bar {
+    height: 100%;
+    background: royalblue;
+    border-radius: 10px;
+    transition: width 0.4s ease;
+  }
+  
+  

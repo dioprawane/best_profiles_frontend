@@ -23,10 +23,12 @@ export class AppComponent {
   showFiller = false;
   screenWidth: number = window.innerWidth;
   isSidebarOpen: boolean = true; // Sidebar initially open
+  
   menus: any[] = [
     { name: 'Général', id: 'button-go-to-main', url: '/' },
     { name: 'Chatbot', id: 'button-chatbot', url: '/chatbot' },
-    {name : 'Emplois', id: 'button-jobs', url: '/jobs'}
+    {name : 'Emplois', id: 'button-jobs', url: '/jobs'},
+    { name: 'Tri', id: 'button-tri', url: '/tri' }
   ];
 
   constructor(private router: Router) { }

@@ -46,20 +46,28 @@ import { ChatbotComponent } from './pages/chatbot/chatbot.component';
 import { HttpService } from './services/http.service';  // Import your service
 import { JobsComponent } from './components/jobs/jobs.component';
 import { JobsDetailComponent } from './components/jobs-detail/jobs-detail.component';
+import { CvTriComponent } from './pages/cv-tri/cv-tri.component';
+import { CvBoxComponent } from './components/cv-box/cv-box.component';
+import { HttpClientModule } from '@angular/common/http';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
     declarations: [
         AppComponent,
         ChatbotComponent,
         JobsComponent,
-        JobsDetailComponent
+        JobsDetailComponent,
+        CvTriComponent,
+        CvBoxComponent
     ],
     imports: [
         BrowserModule,
         MatSidenavModule,
         MatToolbarModule,
         MatButtonModule,
-        MatIconModule
+        MatIconModule,
+        HttpClientModule,  // Import HttpClientModule for HTTP requests
+        MatProgressSpinnerModule,  // Import MatProgressSpinnerModule for loading spinner
     ],
     providers: [
         provideHttpClient(),  // Use provideHttpClient with interceptors
