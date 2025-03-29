@@ -9,6 +9,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'; // Im
 // Define the type for CV files
 interface CvFile {
   filename?: string; // Optional property for filename
+  fileId?: string | null; // Optional property for fileId
 }
 
 @Component({
@@ -43,7 +44,7 @@ export class JobsDetailComponent implements OnInit {
           this.cvList = Array.isArray(data.cv_files)
             ? data.cv_files.map((cv: any) => ({
                 filename: cv.filename,
-                fileId: cv.file_id || null // Ensure fileId is included, or set to null if missing
+                fileId: cv.file_id ?? null // Ensure fileId is included, or set to null if missing
               }))
             : [];
             console.log('Populated cvList:', this.cvList); 
@@ -61,16 +62,28 @@ export class JobsDetailComponent implements OnInit {
   }
 
   // Generate a dynamic URL for each PDF file and sanitize it
-getPdfUrl(fileId: string | null): SafeResourceUrl {
+// getPdfUrl(fileId: string | null): SafeResourceUrl {
+//   if (!this.jobId || !fileId) {
+//       console.error('Invalid fileId or jobId:', { jobId: this.jobId, fileId }); // Debug log
+//       return this.sanitizer.bypassSecurityTrustResourceUrl('about:blank'); // Return an empty string if fileId is missing
+//   }
+
+//   // Construct the URL for the backend endpoint
+//   // const url = `http://localhost:8003/api/collection/${this.jobId}/cv/${fileId}`;
+//   const url = this.httpService.getPdfUrl(this.jobId, fileId);
+//   console.log('Generated URL:', url); // Debug log
+//   return this.sanitizer.bypassSecurityTrustResourceUrl(url); // Sanitize the URL
+// }
+
+getPdfUrl(fileId: string | null | undefined): SafeResourceUrl {
   if (!this.jobId || !fileId) {
-      console.error('Invalid fileId or jobId:', { jobId: this.jobId, fileId }); // Debug log
-      return this.sanitizer.bypassSecurityTrustResourceUrl('about:blank'); // Return an empty string if fileId is missing
+    console.error('Invalid fileId or jobId:', { jobId: this.jobId, fileId });
+    return this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
   }
 
-  // Construct the URL for the backend endpoint
-  const url = `http://localhost:8003/api/collection/${this.jobId}/cv/${fileId}`;
-  console.log('Generated URL:', url); // Debug log
-  return this.sanitizer.bypassSecurityTrustResourceUrl(url); // Sanitize the URL
+  const url = this.httpService.getPdfUrl(this.jobId, fileId);
+  console.log('Generated URL:', url);
+  return this.sanitizer.bypassSecurityTrustResourceUrl(url);
 }
 
   closePopup(): void {
