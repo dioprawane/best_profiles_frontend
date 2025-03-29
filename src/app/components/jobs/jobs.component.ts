@@ -62,13 +62,13 @@ export class JobsComponent {
   
   async createJob() {
     console.log("Create job button clicked!"); // Debug log
-  
+
     if (this.newJobTitle.trim() && this.newJobDescription.trim()) {
       try {
         const formData = new FormData();
         formData.append('title', this.newJobTitle);
         formData.append('description', this.newJobDescription);
-  
+
         // Ensure CV files are added
         if (this.cvFiles.length > 0) {
           this.cvFiles.forEach(file => formData.append('cv_files', file));
@@ -77,20 +77,25 @@ export class JobsComponent {
           alert("Veuillez sélectionner au moins un CV.");
           return;
         }
-  
+
         const response = await firstValueFrom(
           this.httpService.uploadCVs(this.newJobTitle, this.newJobDescription, this.cvFiles)
         );
-  
+
         console.log("Response from backend:", response); // Debug log
-  
+
+        // Ensure the response contains a valid '_id' field
+        if (!response || typeof response._id !== 'string') {
+          throw new Error("Réponse invalide du serveur");
+        }
+
         this.jobs.push({
-          id: response._id,
+          id: response._id,  // Use '_id' instead of 'id'
           title: response.title,
           description: response.description,
           showEdit: false
         });
-  
+
         this.showUploadSuccess(this.cvFiles.length);
         this.resetForm();
       } catch (error) {
@@ -109,51 +114,54 @@ export class JobsComponent {
       console.warn("Fields are empty!"); // Debug log
       alert('Veuillez remplir tous les champs.');
     }
-  }
-
+}
+  
   async saveJob(index: number) {
     const job = this.jobs[index];
-    const currentTitle = job.title; // Current title (before edit)
-  
+    const currentId = job.id; // Current ID (before edit)
+
     console.log("Updating job:", job); // Debug log
     console.log("New title:", job.title); // Debug log
     console.log("New description:", job.description); // Debug log
+
     if (job.title.trim() && job.description.trim()) {
-      try {
-        const response = await firstValueFrom(
-          this.httpService.updateCollection(currentTitle, job.title, job.description)
-        );
-  
-        console.log("Updated job response:", response); // Debug log
-  
-        if (!response || !response.id) {
-          throw new Error("Réponse invalide du serveur");
+        try {
+            const response = await firstValueFrom(
+                this.httpService.updateCollectionById(currentId, job.title, job.description)
+            );
+
+            console.log("Updated job response:", response); // Debug log
+
+            if (!response || typeof response.id !== 'string') {
+                throw new Error("Réponse invalide du serveur");
+            }
+
+            job.showEdit = false;
+        } catch (error) {
+            const httpError = error as HttpErrorResponse;
+            const errorMessage =
+                (httpError.error && httpError.error.detail) ||
+                (httpError.message && httpError.message) ||
+                'Erreur inconnue';
+
+            console.error("Error updating job:", error); // Debug log
+            alert('Erreur lors de la mise à jour : ' + errorMessage);
         }
-  
-        job.showEdit = false;
-      } catch (error) {
-        const httpError = error as HttpErrorResponse;
-        const errorMessage = 
-          (httpError.error && httpError.error.detail) || 
-          (httpError.message && httpError.message) || 
-          'Erreur inconnue';
-        console.error("Error updating job:", error); // Debug log
-        alert('Erreur lors de la mise à jour : ' + errorMessage);
-      }
     } else {
-      alert('Veuillez remplir tous les champs.');
+        alert('Veuillez remplir tous les champs.');
     }
-  }
+}
 
   // Delete Job Section
   async deleteJob(index: number) {
     const job = this.jobs[index];
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce poste ?')) {
+    if (confirm(`Êtes-vous sûr de vouloir supprimer le poste "${job.title}" ?`)) {
       try {
         await firstValueFrom(
           this.httpService.deleteCollection(job.title)
         );
         this.jobs.splice(index, 1);
+        alert(`Poste "${job.title}" a été supprimé avec succès.`);
       } catch (error) {
         alert('Erreur lors de la suppression : ' + error);
       }

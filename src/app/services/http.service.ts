@@ -13,6 +13,9 @@ export class HttpService {
   currentSession: String = timestamp.toString()
   private apiBaseUrl = 'http://localhost:8003/api/collection';
 
+  // private chatApiBaseUrl = '127:0:0:1:8006/chat'
+  private chatApiBaseUrl = 'http://127.0.0.1:8006/chat';
+
   constructor(private http: HttpClient) {
   }
 
@@ -33,8 +36,8 @@ export class HttpService {
   }
 
   // Generate a dynamic URL for serving PDFs
-  getPdfUrl(collectionId: string, filename: string): string {
-    return `${this.apiBaseUrl}/${collectionId}/cv/${filename}`;
+  getPdfUrl(collectionId: string, fileId: string): string {
+    return `${this.apiBaseUrl}/${collectionId}/cv/${fileId}`;
   }
 
   deleteCvFromCollection(collectionId: string, filename: string): Observable<any> {
@@ -52,8 +55,8 @@ export class HttpService {
   addCVsToCollection(collectionId: string, files: File[]): Observable<any> {
     const formData = new FormData();
     files.forEach(file => formData.append('cv_files', file));
-
-    return this.http.post(`${this.apiBaseUrl}/${collectionId}/add-cv`, formData);
+  
+    return this.http.post<any>(`http://localhost:8003/api/collection/${collectionId}/add-cv`, formData);
   }
 
   createCollectionWithFiles(formData: FormData): Observable<any> {
@@ -61,13 +64,12 @@ export class HttpService {
   }
 
   addMessageIA(message: string): void {
-    this.listMessage.push(new Message("", false, true))
+    this.listMessage.push(new Message('', false, true));
 
-
-    const myData = { 'message': message, 'session_id': this.currentSession };
+    const myData = { message: message, session_id: this.currentSession };
     let lastMessage: Message;
 
-    this.http.post('http://127.0.0.1:8000/chat/chat/rag', myData, {
+    this.http.post(`${this.chatApiBaseUrl}/rag`, myData, {
       reportProgress: true,
       observe: 'events',
     }).subscribe(event => {
@@ -76,36 +78,53 @@ export class HttpService {
           console.log('Uploaded ' + event.loaded + ' out of ' + event.total + ' bytes');
           break;
         case HttpEventType.Response:
-          lastMessage = this.listMessage[this.listMessage.length - 1]
-          lastMessage.isOnWriting = false
+          lastMessage = this.listMessage[this.listMessage.length - 1];
+          lastMessage.isOnWriting = false;
           if (event.body) {
-            let result = (event.body as { response: string }).response
-            lastMessage.message = result
+            const result = (event.body as { response: string }).response;
+            lastMessage.message = result;
           }
-
           break;
       }
     });
   }
 
   // WORKED FOR CREATE COLLECTION, DELETE COLLECTION  
-  updateCollection(
-    currentTitle: string,
-    newTitle: string,
-    newDescription: string
-  ): Observable<any> {
+//   updateCollection(currentTitle: string, newTitle: string, newDescription: string): Observable<any> {
+//     const body = {
+//       title: newTitle,  // New title
+//       description: newDescription  // New description
+//     };
+
+//     return this.http.put(`${this.apiBaseUrl}/${currentTitle}/update`, body);
+// }
+
+  updateCollection(currentTitle: string, newTitle: string, newDescription: string): Observable<any> {
     const body = {
-      title: newTitle,
-      description: newDescription,
-      cv_files: [] // Optional: Include empty array if needed
+        title: newTitle,  // New title
+        description: newDescription  // New description
     };
-  
+
     return this.http.put(`${this.apiBaseUrl}/${currentTitle}/update`, body);
   }
+
+  updateCollectionById(
+    collectionId: string,
+    newTitle: string,
+    newDescription: string
+): Observable<any> {
+    const body = {
+        title: newTitle,  // New title
+        description: newDescription  // New description
+    };
+
+    return this.http.put(`${this.apiBaseUrl}/${collectionId}/update`, body);
+}
 
   deleteCollection(title: string): Observable<any> {
     return this.http.delete(`${this.apiBaseUrl}/${title}/delete`);
   }
+  
 
   addFile(contentFile: string) {
     const myData =
@@ -115,22 +134,24 @@ export class HttpService {
       ],
       "clear_existing": false
     };
-    this.http.post('http://127.0.0.1:8000/chat/documents/index', myData, {
+    this.http.post('/documents/index', myData, {
       reportProgress: true,
       observe: 'events',
     }).subscribe(event => {
     });
   }
+
   getSessions(): Promise<string[]> {
     return new Promise((resolve, reject) => {
-      this.http.get<string[]>('http://127.0.0.1:8000/chat/chat/sessions', {
+      this.http.get<string[]>(`${this.chatApiBaseUrl}/sessions`, {
         reportProgress: true,
-        observe: 'events',
+        observe: 'response', // Use 'response' instead of 'events'
       }).subscribe({
-        next: (event) => {
-          if (event.type === HttpEventType.Response) {
-            let result = event.body as string[]
-            resolve(result.reverse());
+        next: (response) => {
+          if (response.status === 200 && Array.isArray(response.body)) {
+            resolve(response.body.reverse());
+          } else {
+            reject("Invalid response format");
           }
         },
         error: (err) => {
@@ -144,19 +165,18 @@ export class HttpService {
     return this.listMessage
   }
 
-  changeSession(session: String): void {
-    this.currentSession = session
+  changeSession(session: string): void {
+    this.currentSession = session;
 
-    this.http.get<any[]>(`http://127.0.0.1:8000/chat/history/${session}`, {
+    this.http.get<any[]>(`${this.chatApiBaseUrl}/history/${session}`, {
       reportProgress: true,
       observe: 'events',
     }).subscribe({
       next: (event) => {
-        // Vérifie si l'événement est une réponse HTTP avec un corps valide
         if (event.type === HttpEventType.Response && Array.isArray(event.body)) {
-          console.log(event.body[0]); // Debug : afficher le premier élément de la réponse
+          console.log(event.body[0]); // Debug: Display the first element of the response
 
-          // Réinitialiser la liste des messages
+          // Reset the list of messages
           this.listMessage = event.body.map(item => new Message(
             item.content,
             item.role === 'user' ? true : false,
@@ -165,33 +185,33 @@ export class HttpService {
         }
       },
       error: (err) => {
-        console.error('Erreur lors de la récupération des messages :', err);
+        console.error('Error fetching messages:', err);
       },
       complete: () => {
-        console.log('Requête terminée');
+        console.log('Request completed');
       }
     });
   }
 
   addNewChat(): void {
-    this.http.post('http://127.0.0.1:8000/chat/chat/new-session', null, {
+    this.http.post(`${this.chatApiBaseUrl}/new-session`, null, {
       reportProgress: true,
       observe: 'events',
     }).subscribe({
       next: (event) => {
-        console.log('Nouvelle session créée');
+        console.log('New session created');
         this.getSessions().then(sessions => {
           this.currentSession = sessions[0];
         }).catch(err => {
-          console.error('Erreur lors de la récupération des sessions :', err);
+          console.error('Error fetching sessions:', err);
         });
       },
       error: (err) => {
-        console.error('Erreur lors de la création d\'une nouvelle session :', err);
+        console.error('Error creating a new session:', err);
       }
     });
-    this.currentSession = timestamp.toString()
-    this.listMessage = []
+    this.currentSession = timestamp.toString();
+    this.listMessage = [];
   }
 
 }

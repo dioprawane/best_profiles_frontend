@@ -28,8 +28,8 @@
         <input [(ngModel)]="job.title" type="text" placeholder="Nom du poste" required />
         <textarea [(ngModel)]="job.description" placeholder="Description personnalisée" required></textarea>
         <div class="button-group">
-          <button (click)="saveJob(i)">Valider</button>
-          <button (click)="cancelEdit(i)">Annuler</button>
+          <button (click)="saveJob(i)" class="validate-job">Valider</button>
+          <button (click)="cancelEdit(i)" class="cancel-job-modification">Annuler</button>
         </div>
       </div>
     </div>
@@ -61,7 +61,7 @@
 
     <!-- Success Popup -->
     <div *ngIf="showSuccessPopup" class="success-popup">
-      <p>Il y a {{ uploadedCount }} CV ont été chargés.</p>
+      <p>Il y a {{ uploadedCount }} CV {{uploadedCount > 1 ? 's ont été chargés' : 'a été chargé'}}.</p>
       <button (click)="closeSuccessPopup()">Fermer</button>
     </div>
   </div>

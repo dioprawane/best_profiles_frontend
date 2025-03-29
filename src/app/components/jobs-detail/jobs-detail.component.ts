@@ -1,184 +1,3 @@
-// import { Component, Input, OnInit } from '@angular/core';
-// import { ActivatedRoute } from '@angular/router';
-// import { firstValueFrom } from 'rxjs';
-// import { HttpService } from '../../services/http.service';
-// import { NgFor } from '@angular/common';
-// import { CommonModule } from '@angular/common';
-// import { HttpClient, provideHttpClient } from '@angular/common/http';
-// import { HttpClientModule } from '@angular/common/http';
-
-// @Component({
-//   selector: 'app-jobs-detail',
-//   // standalone: true,
-//   // imports: [CommonModule],
-//   templateUrl: './jobs-detail.component.html',
-//   styleUrl: './jobs-detail.component.scss',
-//   providers: [HttpService]
-// })
-// export class JobsDetailComponent implements OnInit {
-//   @Input() jobId: string | null = null;
-//   // cvList: File[] = [];
-//   // cvList: string[] = [];
-//   cvList: { filename: string }[] = [];
-
-//   constructor(private route: ActivatedRoute, private httpService: HttpService, private httpClient: HttpClient) {}
-
-//   ngOnInit() {
-//     this.jobId = this.route.snapshot.paramMap.get('id');
-//     if (this.jobId) {
-//       this.httpService.getCollectionDetails(this.jobId).subscribe({
-//         next: (data: any) => {
-//           console.log("Fetched collection details:", data);
-//           this.cvList = Array.isArray(data.cv_files) ? data.cv_files : [];
-//         },
-//         error: () => alert('Erreur lors du chargement des CVs')
-//       });
-//     }
-//   }
-
-//   openFileInput(): void {
-//     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
-//     if (fileInput) {
-//       fileInput.click();
-//     }
-//   }
-
-//   // Method to handle adding new CVs
-//   handleAddCVs(event: any) {
-//     const files = Array.from(event.target.files) as File[];
-//     if (files.length > 0) {
-//       this.uploadCVs(files);
-//     }
-//   }
-
-//   // async uploadCVs(files: File[]) {
-//   //   try {
-//   //     const response = await firstValueFrom(
-//   //       this.httpService.addCVsToCollection(this.jobId!, files)
-//   //     );
-//   //     this.cvList = [...this.cvList, ...response.new_files];
-//   //   } catch (error) {
-//   //     alert('Erreur lors de l’ajout des CVs');
-//   //   }
-//   // }
-
-//   async uploadCVs(files: File[]) {
-//     if (!this.jobId) {
-//       alert("Job ID is undefined. Cannot upload CVs.");
-//       return;
-//     }
-  
-//     try {
-//       const response = await firstValueFrom(
-//         this.httpService.addCVsToCollection(this.jobId, files)
-//       );
-//       console.log("Response after adding CVs:", response);
-//       this.cvList = [...this.cvList, ...response.new_files];
-//     } catch (error) {
-//       alert('Erreur lors de l’ajout des CVs');
-//     }
-//   }
-  
-// }
-
-// import { Component, Input, OnInit } from '@angular/core';
-// import { ActivatedRoute } from '@angular/router';
-// import { firstValueFrom } from 'rxjs';
-// import { HttpService } from '../../services/http.service';
-// import { CommonModule } from '@angular/common';
-// import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-// // Define the type for CV files
-// interface CvFile {
-//   filename?: string; // Optional property for filename
-// }
-
-// @Component({
-//   selector: 'app-jobs-detail',
-//   imports: [
-//     CommonModule,
-//   ],
-//   schemas: [
-//     NO_ERRORS_SCHEMA,
-//     // CUSTOM_ELEMENTS_SCHEMA
-// ],
-//   standalone: true,
-//   templateUrl: './jobs-detail.component.html',
-//   styleUrls: ['./jobs-detail.component.scss']
-// })
-// export class JobsDetailComponent implements OnInit {
-//   @Input() jobId: string | null = null;
-//   cvList: CvFile[] = []; // Use CvFile[] instead of any[]
-
-//   constructor(private route: ActivatedRoute, private httpService: HttpService) {}
-
-//   ngOnInit() {
-//     this.jobId = this.route.snapshot.paramMap.get('id');
-//     if (this.jobId) {
-//       this.httpService.getCollectionDetails(this.jobId).subscribe({
-//         next: (data: any) => {
-//           console.log("Fetched collection details:", data); // Debug log
-
-//           // Map cv_files with explicit typing
-//           this.cvList = Array.isArray(data.cv_files)
-//             ? data.cv_files.map((cv: CvFile) => ({ filename: cv.filename || cv })) // Explicitly type cv as CvFile
-//             : [];
-//         },
-//         error: () => alert('Erreur lors du chargement des CVs')
-//       });
-//     }
-//   }
-
-//   openFileInput(): void {
-//     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
-//     if (fileInput) {
-//       fileInput.click();
-//     }
-//   }
-
-//   getPdfUrl(filename: string): string {
-//     if (!this.jobId) {
-//       return '';
-//     }
-//     return this.httpService.getPdfUrl(this.jobId, filename);
-//   }
-
-//   handleAddCVs(event: any) {
-//     const files = Array.from(event.target.files) as File[];
-//     if (files.length > 0) {
-//       this.uploadCVs(files);
-//     }
-//   }
-
-//   async uploadCVs(files: File[]) {
-//     if (!this.jobId) {
-//       alert("Job ID is undefined. Cannot upload CVs.");
-//       return;
-//     }
-
-//     try {
-//       const response = await firstValueFrom(
-//         this.httpService.addCVsToCollection(this.jobId, files)
-//       );
-
-//       console.log("Response after adding CVs:", response); // Debug log
-
-//       // Update the local cvList with new filenames (explicit typing)
-//       if (response && Array.isArray(response.new_files)) {
-//         this.cvList = [
-//           ...this.cvList,
-//           ...response.new_files.map((cv: CvFile) => ({ filename: cv.filename || cv }))
-//         ];
-//       } else {
-//         throw new Error("Invalid response structure from server");
-//       }
-//     } catch (error) {
-//       console.error("Error uploading CVs:", error); // Debug log
-//       alert('Erreur lors de l’ajout des CVs');
-//     }
-//   }
-// }
-
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -202,7 +21,10 @@ interface CvFile {
 })
 export class JobsDetailComponent implements OnInit {
   @Input() jobId: string | null = null;
+  jobName: string = ''; // Job name
   cvList: CvFile[] = []; // List of uploaded CV filenames
+  popupMessage: string = '';
+  showPopup: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -215,15 +37,16 @@ export class JobsDetailComponent implements OnInit {
     if (this.jobId) {
       this.httpService.getCollectionDetails(this.jobId).subscribe({
         next: (data: any) => {
-          console.log("Fetched collection details:", data); // Debug log
-
-          // Map cv_files with explicit typing
+          this.jobName = data.title || 'Nom du poste inconnu'; // Set the job name
+  
+          // Map the cv_files array to include both filename and fileId
           this.cvList = Array.isArray(data.cv_files)
-            ? data.cv_files.map((cv: CvFile) => ({ filename: cv.filename || cv }))
+            ? data.cv_files.map((cv: any) => ({
+                filename: cv.filename,
+                fileId: cv.file_id || null // Ensure fileId is included, or set to null if missing
+              }))
             : [];
-          this.cvList.forEach((cv) => {
-            console.log("Generated PDF URL for CV:", this.getPdfUrl(cv.filename || ''));
-          });
+            console.log('Populated cvList:', this.cvList); 
         },
         error: () => alert('Erreur lors du chargement des CVs')
       });
@@ -238,50 +61,80 @@ export class JobsDetailComponent implements OnInit {
   }
 
   // Generate a dynamic URL for each PDF file and sanitize it
-  getPdfUrl(filename: string): SafeResourceUrl {
-    if (!this.jobId) {
-      return ''; // Return empty string if job ID is undefined
-    }
-
-    // Use the backend's actual endpoint for serving PDFs
-    const url = this.httpService.getPdfUrl(this.jobId, filename);
-    return this.sanitizer.bypassSecurityTrustResourceUrl(url); // Sanitize the URL
+getPdfUrl(fileId: string | null): SafeResourceUrl {
+  if (!this.jobId || !fileId) {
+      console.error('Invalid fileId or jobId:', { jobId: this.jobId, fileId }); // Debug log
+      return this.sanitizer.bypassSecurityTrustResourceUrl('about:blank'); // Return an empty string if fileId is missing
   }
 
-  handleAddCVs(event: any) {
-    const files = Array.from(event.target.files) as File[];
-    if (files.length > 0) {
-      this.uploadCVs(files);
-    }
+  // Construct the URL for the backend endpoint
+  const url = `http://localhost:8003/api/collection/${this.jobId}/cv/${fileId}`;
+  console.log('Generated URL:', url); // Debug log
+  return this.sanitizer.bypassSecurityTrustResourceUrl(url); // Sanitize the URL
+}
+
+  closePopup(): void {
+    this.showPopup = false; // Close the popup
   }
 
-  async uploadCVs(files: File[]) {
+  async uploadCVs(files: File[]): Promise<void> {
     if (!this.jobId) {
-      alert("Job ID is undefined. Cannot upload CVs.");
-      return;
+        alert("Job ID is undefined. Cannot upload CVs.");
+        return;
     }
 
     try {
-      const response = await firstValueFrom(
-        this.httpService.addCVsToCollection(this.jobId, files)
-      );
+        const response = await firstValueFrom(
+            this.httpService.addCVsToCollection(this.jobId, files)
+        );
 
-      console.log("Response after adding CVs:", response); // Debug log
+        console.log("Response after adding CVs:", response); // Debug log
 
-      // Update the local cvList with new filenames (explicit typing)
-      if (response && Array.isArray(response.new_files)) {
-        this.cvList = [
-          ...this.cvList,
-          ...response.new_files.map((cv: CvFile) => ({ filename: cv.filename || cv }))
-        ];
-      } else {
-        throw new Error("Invalid response structure from server");
-      }
+        // Ensure the response contains new_files with filename and file_id
+        if (response && Array.isArray(response.new_files)) {
+            const newCvs = response.new_files.map((cv: any) => ({
+                filename: cv.filename || null, // Use explicit typing
+                fileId: cv.file_id || null   // Use explicit typing
+            }));
+
+            // Avoid duplicates by filtering existing filenames
+            this.cvList = [
+              ...this.cvList.filter((cv: CvFile) => !newCvs.some((newCv: CvFile) => newCv.filename === cv.filename)),
+              ...newCvs
+            ];
+
+            console.log("Updated cvList:", this.cvList); // Debug log
+        } else {
+            throw new Error("Invalid response structure from server");
+        }
     } catch (error) {
-      console.error("Error uploading CVs:", error); // Debug log
-      alert('Erreur lors de l’ajout des CVs');
+        console.error("Error uploading CVs:", error); // Debug log
+        alert('Erreur lors de l’ajout des CVs');
     }
-  }
+}
+
+handleAddCVs(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+        const files = Array.from(input.files);
+
+        // Call the backend to upload the files
+        this.uploadCVs(files).then(() => {
+            // Set the popup message based on the number of files added
+            if (files.length === 1) {
+                this.popupMessage = `CV "${files[0].name}" a été ajouté.`;
+            } else {
+                this.popupMessage = `${files.length} CVs ont été ajoutés.`;
+            }
+
+            // Show the popup
+            this.showPopup = true;
+        }).catch(error => {
+            console.error("Error uploading CVs:", error);
+            alert('Erreur lors de l’ajout des CVs');
+        });
+    }
+}
 
   async deleteCv(filename: string) {
     if (!this.jobId) {

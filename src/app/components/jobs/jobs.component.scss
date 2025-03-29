@@ -35,6 +35,34 @@
     display: flex;
     gap: 10px;
   }
+
+  .validate-job {
+    background-color: #007bff; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .validate-job:hover {
+    background-color: #0056b3; 
+  }
+
+  .cancel-job-modification {
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #e74c3c;
+    transition: background-color 0.3s ease; 
+  }
+  
+  .cancel-job-modification:hover {
+    background-color: #a71d2a; 
+  }
   
   .create-button {
     background-color: blue;
