@@ -19,8 +19,8 @@
           "options": {
             "outputPath": "dist/portfolio-angular",
             "index": "src/index.html",
-            "baseHref": "./",
-            "deployUrl": "./",
+            "baseHref": "/",
+            "deployUrl": "/",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"

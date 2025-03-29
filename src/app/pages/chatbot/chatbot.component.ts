@@ -55,7 +55,8 @@ export class ChatbotComponent {
 
   messages: Message[];
   formContent: string = ''; // Déclaration de la propriété
-  historique_title: String[] = [];
+  // historique_title: String[] = [];
+  historique_title: string[] = [];
 
   constructor(private httpService: HttpService) {
     this.messages = this.httpService.getMessages();
@@ -91,7 +92,15 @@ export class ChatbotComponent {
     window.scrollTo({ top: scrollHeight, behavior: 'smooth' });
   }
 
-  public changeSession(session: String): void {
+  // public changeSession(session: String): void {
+  //   this.httpService.changeSession(session);
+  //   this.httpService.getSessions().then(sessions => {
+  //     this.historique_title = sessions;
+  //   });
+  //   this.messages = this.httpService.getMessages();
+
+  // }
+  public changeSession(session: string): void {
     this.httpService.changeSession(session);
     this.httpService.getSessions().then(sessions => {
       this.historique_title = sessions;

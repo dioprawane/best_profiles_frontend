@@ -13,11 +13,54 @@ export class HttpService {
   currentSession: String = timestamp.toString()
   private apiBaseUrl = 'http://localhost:8003/api/collection';
 
+  // private chatApiBaseUrl = '127:0:0:1:8006/chat'
+  private chatApiBaseUrl = 'http://127.0.0.1:8006/chat';
+
   constructor(private http: HttpClient) {
+  }
+
+  uploadCVs(
+    title: string,
+    description: string,
+    files: File[]
+  ): Observable<any> {
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    files.forEach(file => formData.append('cv_files', file));
+    return this.http.post(`${this.apiBaseUrl}/create`, formData);
+  }
+
+  getCollectionDetails(id: string): Observable<any> {
+    return this.http.get(`${this.apiBaseUrl}/${id}`);
+  }
+
+  // Generate a dynamic URL for serving PDFs
+  getPdfUrl(collectionId: string, fileId: string): string {
+    return `${this.apiBaseUrl}/${collectionId}/cv/${fileId}`;
+  }
+
+  deleteCvFromCollection(collectionId: string, filename: string): Observable<any> {
+    return this.http.delete(`${this.apiBaseUrl}/${collectionId}/cv/${filename}`);
+  }
+
+  // Fetch CV file as Base64
+  getCvAsBase64(collectionId: string, filename: string): Observable<any> {
+    return this.http.get(`${this.apiBaseUrl}/collection/${collectionId}/cv/${filename}`);
   }
 
   addMessageCustomer(message: string): void {
     this.listMessage.push(new Message(message, true, false))
+  }
+  addCVsToCollection(collectionId: string, files: File[]): Observable<any> {
+    const formData = new FormData();
+    files.forEach(file => formData.append('cv_files', file));
+  
+    return this.http.post<any>(`http://localhost:8003/api/collection/${collectionId}/add-cv`, formData);
+  }
+
+  createCollectionWithFiles(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/create`, formData);
   }
 
   addMessageIA(message: string): void {
@@ -48,45 +91,38 @@ export class HttpService {
     });
   }
 
-  createCollection(title: string, description: string): Observable<any> {
-    return this.http.post(`${this.apiBaseUrl}/create`, { title, description });
-  }
-
   // WORKED FOR CREATE COLLECTION, DELETE COLLECTION  
   updateCollection(
     currentTitle: string,
     newTitle: string,
     newDescription: string
   ): Observable<any> {
-    // Use PUT method and include all required fields
-    return this.http.put(
-      `${this.apiBaseUrl}/${currentTitle}/update`,
-      {
-        title: newTitle,
-        description: newDescription,
-        cv_files: [] // Add this to match the Pydantic model
-      }
-    );
+  
+    const body = {
+        title: newTitle,  // New title
+        description: newDescription  // New description
+    };
+
+    return this.http.put(`${this.apiBaseUrl}/${currentTitle}/update`, body);
   }
 
-  // updateCollection(
-  //   currentTitle: string, 
-  //   newTitle: string, 
-  //   newDescription: string
-  // ): Observable<any> {
-  //   return this.http.put(
-  //     `${this.apiBaseUrl}/${encodeURIComponent(currentTitle)}/update`, // Encode title to handle spaces
-  //     {
-  //       title: newTitle,
-  //       description: newDescription,
-  //       cv_files: []
-  //     }
-  //   );
-  // }
+  updateCollectionById(
+    collectionId: string,
+    newTitle: string,
+    newDescription: string
+): Observable<any> {
+    const body = {
+        title: newTitle,  // New title
+        description: newDescription  // New description
+    };
+
+    return this.http.put(`${this.apiBaseUrl}/${collectionId}/update`, body);
+}
 
   deleteCollection(title: string): Observable<any> {
     return this.http.delete(`${this.apiBaseUrl}/${title}/delete`);
   }
+  
 
   addFile(contentFile: string) {
     console.log(contentFile)
@@ -103,7 +139,6 @@ export class HttpService {
     }).subscribe(event => {
     });
   }
-
 
   getSessions(): Promise<string[]> {
     return new Promise((resolve, reject) => {
