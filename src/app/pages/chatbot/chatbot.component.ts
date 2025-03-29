@@ -51,6 +51,7 @@ export class ChatbotComponent {
       // Traitez le fichier ici si nécessaire
     }
   }
+    
 
   messages: Message[];
   formContent: string = ''; // Déclaration de la propriété
