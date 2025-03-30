@@ -50,6 +50,12 @@ import { CvTriComponent } from './pages/cv-tri/cv-tri.component';
 import { CvBoxComponent } from './components/cv-box/cv-box.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CvMatchingComponent } from './pages/cv-matching/cv-matching.component';
+
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 
 @NgModule({
     declarations: [
@@ -58,7 +64,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         JobsComponent,
         JobsDetailComponent,
         CvTriComponent,
-        CvBoxComponent
+        CvBoxComponent,
+        CvMatchingComponent
     ],
     imports: [
         BrowserModule,
@@ -68,6 +75,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         MatIconModule,
         HttpClientModule,  // Import HttpClientModule for HTTP requests
         MatProgressSpinnerModule,  // Import MatProgressSpinnerModule for loading spinner
+        FormsModule,  // Import FormsModule for form handling
+        MatFormFieldModule,  // Import MatFormFieldModule for form fields
+        MatInputModule,  // Import MatInputModule for input fields
     ],
     providers: [
         provideHttpClient(),  // Use provideHttpClient with interceptors

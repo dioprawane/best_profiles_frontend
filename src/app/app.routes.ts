@@ -4,6 +4,7 @@ import { ChatbotComponent } from './pages/chatbot/chatbot.component';
 import { JobsComponent } from './components/jobs/jobs.component';
 import { JobsDetailComponent } from './components/jobs-detail/jobs-detail.component';
 import { CvTriComponent } from './pages/cv-tri/cv-tri.component';
+import { CvMatchingComponent } from './pages/cv-matching/cv-matching.component';
 
 export const routes: Routes = [
     {
@@ -25,6 +26,10 @@ export const routes: Routes = [
     {
         path: 'tri',
         component: CvTriComponent
+    },
+    {
+        path: 'matching',
+        component: CvMatchingComponent
     }
 
 ];

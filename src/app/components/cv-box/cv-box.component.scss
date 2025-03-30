@@ -5,8 +5,8 @@
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 350px;
-    min-height: 520px;
-    height: 520px; // <--- hauteur fixe
+    min-height: 550px;
+    height: 500px; // <--- hauteur fixe
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -51,4 +51,60 @@
     transition: width 0.4s ease;
   }
   
+  
+  /* ✅ Ajoute ceci à ton fichier SCSS existant */
+
+.cv-box .desc {
+    font-size: 0.85rem;
+    text-align: center;
+  
+    p {
+      margin: 2px 0 0;
+      color: #555;
+    }
+  }
+
+  .desc {
+    max-height: 70px;
+    overflow-y: auto;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  
+  
+  /* Pour les barres de progression en dégradé dynamique (géré côté TS avec style inline) */
+  .bar {
+    background: linear-gradient(90deg, green, red); // Ce sera override dynamiquement via TS
+  }
+  
+  /* Section de détail cliquable */
+  .details {
+    background-color: #f9f9f9;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+    max-height: 180px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+  }
+  
+  /*  Curseur pour les sections cliquables */
+  .label.clickable {
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .label.clickable:hover {
+    color: #3f51b5;
+    text-decoration: underline;
+  }
+  
+  .cv-content-scrollable {
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+    margin-top: 10px;
+  }
   

@@ -28,7 +28,8 @@ export class AppComponent {
     { name: 'Général', id: 'button-go-to-main', url: '/' },
     { name: 'Chatbot', id: 'button-chatbot', url: '/chatbot' },
     {name : 'Emplois', id: 'button-jobs', url: '/jobs'},
-    { name: 'Tri', id: 'button-tri', url: '/tri' }
+    { name: 'Tri', id: 'button-tri', url: '/tri' },
+    { name: 'Matching', id: 'button-matching', url: '/matching' }
   ];
 
   constructor(private router: Router) { }

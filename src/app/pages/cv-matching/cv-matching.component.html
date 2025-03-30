@@ -1,11 +1,16 @@
 <div class="tri-page">
-    <h1>Tri des Profils</h1>
+    <h1>Matching : Postes & Profils</h1>
   
     <div class="upload-container">
       <label for="file-upload" class="custom-file-upload">
         📄 Choisir des fichiers à trier
         <input id="file-upload" type="file" (change)="onFileSelected($event)" multiple accept=".pdf, .jpg, .jpeg, .png, .bmp, .tiff" />
       </label>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Description du poste recherché</mat-label>
+        <input matInput [(ngModel)]="jobTitle" placeholder="Ex: Responsable marketing" />
+      </mat-form-field>
   
       <div class="file-info">
         {{ selectedFiles.length > 0 ? selectedFiles.length + ' fichier(s) sélectionné(s)' : 'Aucun fichier sélectionné' }}
@@ -16,7 +21,7 @@
       <div class="button-container">
         <button mat-raised-button color="primary" (click)="uploadAndCompare()" [disabled]="isLoading || selectedFiles.length === 0">
           <mat-icon *ngIf="!isLoading">cloud_upload</mat-icon>
-          <span *ngIf="!isLoading">Charger</span>
+          <span *ngIf="!isLoading">Matcher</span>
         </button>
   
         <button mat-raised-button color="accent" (click)="toggleSort()" [disabled]="profiles.length === 0">
@@ -26,7 +31,11 @@
     </div>
   
     <div class="profiles" *ngIf="profiles.length > 0">
-      <app-cv-box *ngFor="let profile of profiles" [profile]="profile"></app-cv-box>
+        <app-cv-match-box
+            *ngFor="let profile of profiles"
+            [profile]="profile"
+            (profileClicked)="showCv(profile)"
+        ></app-cv-match-box>      
     </div>
-  </div>
+</div>
   
