@@ -9,15 +9,15 @@
     <div class="score-metrics">
       <div class="metric">
         <label>Matching :</label>
-        <div class="value">{{ profile.scores?.matching_score * 100 | number: '1.0-1' }}%</div>
+        <div class="value">{{ profile.scores?.matching_score | number: '1.0-1' }}</div>
       </div>
       <div class="metric">
-        <label>Correspondance :</label>
+        <label>Conformité :</label>
         <div class="value">{{ profile.relevance_score }}</div>
       </div>
       <div class="metric">
-        <label>Score global :</label>
+        <label>Score :</label>
         <div class="value">{{ profile.scores?.total_score_pourcentage_all_profiles }}%</div>
     </div>
+    
 </div>
-  

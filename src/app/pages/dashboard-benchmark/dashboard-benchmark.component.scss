@@ -1,0 +1,9 @@
+.chart-container {
+    height: 50vh; // ou 250px selon ton goût
+    margin-bottom: 2rem;
+  
+    canvas {
+      max-height: 100%;
+    }
+  }
+  

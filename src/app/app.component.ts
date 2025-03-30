@@ -26,10 +26,11 @@ export class AppComponent {
   
   menus: any[] = [
     { name: 'Général', id: 'button-go-to-main', url: '/' },
-    { name: 'Chatbot', id: 'button-chatbot', url: '/chatbot' },
-    {name : 'Emplois', id: 'button-jobs', url: '/jobs'},
+    { name: 'Collection', id: 'button-jobs', url: '/jobs'},
     { name: 'Tri', id: 'button-tri', url: '/tri' },
-    { name: 'Matching', id: 'button-matching', url: '/matching' }
+    { name: 'Matching', id: 'button-matching', url: '/matching' },
+    { name: 'Chatbot', id: 'button-chatbot', url: '/chatbot' },
+    { name: 'Benchmark', id: 'button-benchmark', url: '/benchmark' },
   ];
 
   constructor(private router: Router) { }
