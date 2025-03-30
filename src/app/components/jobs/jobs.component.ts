@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -18,7 +18,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './jobs.component.html',
   styleUrls: ['./jobs.component.scss']
 })
-export class JobsComponent {
+export class JobsComponent implements OnInit {
   jobs: { 
     id: string;
     title: string;
@@ -34,6 +34,25 @@ export class JobsComponent {
   cvFiles: File[] = [];
 
   constructor(private httpService: HttpService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.loadJobs(); // Charger les jobs dès l’arrivée sur la page
+  }
+
+  async loadJobs() {
+    try {
+      const jobsFromBackend = await firstValueFrom(this.httpService.getAllJobs()); // adapte si ton service a un autre nom
+      this.jobs = jobsFromBackend.map((job: any) => ({
+        id: job._id,
+        title: job.title,
+        description: job.description,
+        showEdit: false
+      }));
+    } catch (error) {
+      console.error('Erreur lors du chargement des postes :', error);
+      alert('Impossible de charger les postes.');
+    }
+  }
 
   handleFileUpload(event: any) {
     this.cvFiles = Array.from(event.target.files);
@@ -98,6 +117,7 @@ export class JobsComponent {
 
         this.showUploadSuccess(this.cvFiles.length);
         this.resetForm();
+        await this.loadJobs();
       } catch (error) {
         console.error("Error creating job:", error); // Debug log
         if (error instanceof HttpErrorResponse) {

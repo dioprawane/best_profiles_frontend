@@ -1,0 +1,10 @@
+[
+    {
+        "timestamp": "2025-03-30T13:31:06.789214",
+        "cv_count": 10,
+        "total_extraction_time_s": 196.95,
+        "total_scoring_time_ms": 0.81,
+        "total_time_necessaire_s": 800.0,
+        "sorting_time_ms": 0.01
+    }
+]

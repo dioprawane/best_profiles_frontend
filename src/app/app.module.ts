@@ -62,6 +62,9 @@ import { CommonModule } from '@angular/common';
 import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 
+import { DashboardBenchmarkComponent } from './pages/dashboard-benchmark/dashboard-benchmark.component';
+import { NgChartsModule } from 'ng2-charts';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -70,7 +73,8 @@ import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
         JobsDetailComponent,
         CvTriComponent,
         CvBoxComponent,
-        CvMatchingComponent
+        CvMatchingComponent,
+        DashboardBenchmarkComponent
     ],
     imports: [
         BrowserModule,
@@ -85,7 +89,8 @@ import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
         MatInputModule,  // Import MatInputModule for input fields
         BrowserAnimationsModule,
         CommonModule,
-        PdfJsViewerModule
+        PdfJsViewerModule,
+        NgChartsModule
     ],
     schemas: [
         NO_ERRORS_SCHEMA,

@@ -213,4 +213,8 @@ export class HttpService {
     this.listMessage = []
   }
 
+  getAllJobs(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiBaseUrl}`);
+  }  
+
 }

@@ -1,0 +1,19 @@
+<h2>Performance : Temps de traitement</h2>
+<div class="chart-container">
+  <canvas baseChart
+    [data]="totalTimeChart"
+    [type]="'bar'"
+    [options]="totalTimeChartOptions"
+    [plugins]="totalTimeChartPlugins">
+  </canvas>
+</div>
+
+<h2>Performance : Votre Gain de temps</h2>
+<div class="chart-container">
+  <canvas baseChart
+    [data]="gainChart"
+    [type]="'bar'"
+    [options]="gainChartOptions"
+    [plugins]="gainChartPlugins">
+  </canvas>
+</div>
