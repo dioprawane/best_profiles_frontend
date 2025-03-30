@@ -20,7 +20,7 @@ export const routes: Routes = [
         component: JobsComponent
     },
     {
-        path: 'jobs_detail/:id',
+        path: 'jobs-detail/:id',
         component: JobsDetailComponent
     },
     {
