@@ -46,6 +46,17 @@ import { ChatbotComponent } from './pages/chatbot/chatbot.component';
 import { HttpService } from './services/http.service';  // Import your service
 import { JobsComponent } from './components/jobs/jobs.component';
 import { JobsDetailComponent } from './components/jobs-detail/jobs-detail.component';
+
+import { CvTriComponent } from './pages/cv-tri/cv-tri.component';
+import { CvBoxComponent } from './components/cv-box/cv-box.component';
+import { HttpClientModule } from '@angular/common/http';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CvMatchingComponent } from './pages/cv-matching/cv-matching.component';
+
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { CommonModule } from '@angular/common';
 import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -56,7 +67,10 @@ import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
         AppComponent,
         ChatbotComponent,
         JobsComponent,
-        JobsDetailComponent
+        JobsDetailComponent,
+        CvTriComponent,
+        CvBoxComponent,
+        CvMatchingComponent
     ],
     imports: [
         BrowserModule,
@@ -64,6 +78,11 @@ import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
         MatToolbarModule,
         MatButtonModule,
         MatIconModule,
+        HttpClientModule,  // Import HttpClientModule for HTTP requests
+        MatProgressSpinnerModule,  // Import MatProgressSpinnerModule for loading spinner
+        FormsModule,  // Import FormsModule for form handling
+        MatFormFieldModule,  // Import MatFormFieldModule for form fields
+        MatInputModule,  // Import MatInputModule for input fields
         BrowserAnimationsModule,
         CommonModule,
         PdfJsViewerModule

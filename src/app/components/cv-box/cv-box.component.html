@@ -1,0 +1,31 @@
+<div class="cv-box">
+    <h2>{{ profile.cv_data.prenom }} {{ profile.cv_data.nom }}</h2>
+    <div class="desc">
+        <strong>{{ profile.cv_data.description?.titre }}</strong>
+        <p>{{ profile.cv_data.description?.texte }}</p>
+    </div>
+
+    <h3>Score global : {{ profile.scores.total_score_pourcentage_all_profiles }} %</h3>
+
+    <div class="cv-content-scrollable">
+        <div *ngFor="let item of scoreItems">
+        <div class="label clickable" (click)="toggleDetails(item.key)">
+            {{ item.label }} : {{ getPourcentageAllProfiles(item.key) }}%
+        </div>
+        <div class="bar-container">
+            <div
+            class="bar"
+            [ngStyle]="{
+                width: getPourcentageAllProfiles(item.key) + '%',
+                background: getGradient(getPourcentageAllProfiles(item.key))
+            }"
+            ></div>
+        </div>
+
+        <!-- Affichage des détails si activé -->
+        <div class="details" *ngIf="selectedSection === item.key">
+            {{ getDetails(profile.cv_data, item.key) | json }}
+        </div>
+        </div>
+    </div>
+</div>  

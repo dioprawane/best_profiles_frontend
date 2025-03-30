@@ -1,0 +1,23 @@
+<div class="cv-match-box" (click)="onClickProfile()">
+    <h2>{{ profile.cv_data.prenom }} {{ profile.cv_data.nom }}</h2>
+  
+    <div class="desc">
+      <strong>{{ profile.cv_data.description?.titre }}</strong>
+      <p>{{ profile.cv_data.description?.texte }}</p>
+    </div>
+  
+    <div class="score-metrics">
+      <div class="metric">
+        <label>Matching :</label>
+        <div class="value">{{ profile.scores?.matching_score * 100 | number: '1.0-1' }}%</div>
+      </div>
+      <div class="metric">
+        <label>Correspondance :</label>
+        <div class="value">{{ profile.relevance_score }}</div>
+      </div>
+      <div class="metric">
+        <label>Score global :</label>
+        <div class="value">{{ profile.scores?.total_score_pourcentage_all_profiles }}%</div>
+    </div>
+</div>
+  

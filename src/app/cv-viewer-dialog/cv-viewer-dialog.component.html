@@ -1,0 +1,41 @@
+<div class="dialog-container">
+    <!-- Barre supérieure -->
+    <div class="dialog-header">
+      <h2>Visualisation du CV</h2>
+      <div class="actions">
+        <button mat-icon-button (click)="zoomOut()" title="Zoom -">
+          <mat-icon>zoom_out</mat-icon>
+        </button>
+        <button mat-icon-button (click)="zoomIn()" title="Zoom +">
+          <mat-icon>zoom_in</mat-icon>
+        </button>
+        <button mat-icon-button (click)="closeDialog()" title="Fermer">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  
+    <!-- Contenu -->
+    <div class="dialog-content">
+      <ng-container [ngSwitch]="fileType">
+        <!-- 📄 PDF avec embed -->
+        <embed
+          *ngSwitchCase="'application/pdf'"
+          [src]="sanitizedUrl"
+          type="application/pdf"
+          class="pdf-embed"
+        />
+  
+        <!-- 🖼️ Image -->
+        <img
+          *ngSwitchDefault
+          [src]="fileUrl"
+          alt="CV"
+          [style.transform]="'scale(' + zoom + ')'"
+          [style.transform-origin]="'top center'"
+          class="image-view"
+        />
+      </ng-container>
+    </div>
+</div>
+  
